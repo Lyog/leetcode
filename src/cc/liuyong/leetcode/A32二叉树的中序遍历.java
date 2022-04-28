@@ -18,4 +18,11 @@ public class A32二叉树的中序遍历 {
         inorder(root.right, res);
     }
 
+    public void preOrder(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        res.add(root.val);
+        preOrder(root.left, res);
+        preOrder(root.right, res);
+    }
+
 }

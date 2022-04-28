@@ -1,41 +1,42 @@
 package cc.liuyong.leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class A33反序列化二叉树 {
 
-    public TreeNode getTree(String[] strings, int index) {
-        if (index >= strings.length) return null;
-        String value = strings[index];
-        if (value.equals("#")) return null;
-        TreeNode node = new TreeNode(Integer.parseInt(value));
-        node.left = getTree(strings, index+1);
-        node.right = getTree(strings, index+2);
-        return node;
+    public TreeNode deserialize(LinkedList<String> dataList) {
+        if (dataList.isEmpty()) return null;
+        String s = dataList.removeFirst();
+        if (s.equals("#")) {
+            return null;
+        }
+        TreeNode root = new TreeNode(Integer.parseInt(s));
+        root.left = deserialize(dataList);
+        root.right = deserialize(dataList);
+        return root;
     }
 
     public TreeNode func(String str) {
         String[] split = str.split(",");
-        int index = 0;
-        return getTree(split, index);
+        LinkedList<String> list = new LinkedList<>(Arrays.asList(split));
+        return deserialize(list);
     }
 
     public static void main(String[] args) {
-        String str = "1,2,3,4,5,#";
+        String str = "1,2,3,#,#,4,5,#,#";
         A33反序列化二叉树 a = new A33反序列化二叉树();
-        List<Integer> res = new ArrayList<>();
-        a.preOrder(a.func(str),res);
+        a.func(str);
+        a.preOrder(a.func(str));
         System.out.println("");
 
     }
 
-    public void preOrder(TreeNode root, List<Integer> res) {
+    public void preOrder(TreeNode root) {
         if (root == null) return;
         System.out.println(root.val);
-//        res.add(root.val);
-        preOrder(root.left, res);
-        preOrder(root.right, res);
+        preOrder(root.left);
+        preOrder(root.right);
     }
 
 }
